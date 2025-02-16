@@ -12,14 +12,14 @@ class UserTest < ActiveSupport::TestCase
   test "email address should be present" do
     @user.email_address = nil
     assert_not @user.valid?
-    assert_includes @user.errors[:email_address], "Email address is required"
+    assert_includes @user.errors[:email_address], "is required"
   end
 
   test "email address should be unique" do
     @user.save!
     duplicate_user = @user.dup
     assert_not duplicate_user.valid?
-    assert_includes duplicate_user.errors[:email_address], "Email address is already registered"
+    assert_includes duplicate_user.errors[:email_address], "is already registered"
   end
 
   test "email address should be normalized before saving" do
@@ -30,7 +30,7 @@ class UserTest < ActiveSupport::TestCase
   test "should be invalid with improperly formatted email address" do
     @user.email_address = "invalid_email"
     assert_not @user.valid?
-    assert_includes @user.errors[:email_address], "Invalid email address"
+    assert_includes @user.errors[:email_address], "is invalid"
   end
 
   test "should authenticate with correct password" do

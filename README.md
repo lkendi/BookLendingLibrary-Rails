@@ -1,33 +1,36 @@
-# Book Lending Library
+# **BookLendingLibrary - Rails Library Management System**
 
-A simple book lending library application built with Ruby on Rails 8. This application allows registered users to browse available books, borrow a book, return a book, and view the list of books they have currently borrowed. When a user borrows a book, a Borrowing record is created that associates the Book and the User with a due date set for 2 weeks from the borrowing date. There also is the admin panel, allowing admin users to add, edit and delete books.
+![Rails Version](https://img.shields.io/badge/Rails-8.0.0-red)  
+![Ruby Version](https://img.shields.io/badge/Ruby-3.2.0-green)
+
+BookLender is a simple book lending library application built with Ruby on Rails 8. It allows registered users to browse books, borrow and return them, and view their borrowing history. An admin panel  enables book management (CRUD) and access to borrowing records.
 
 
 ## Features
+### **General Features**
 
-- **User Login**
-  Uses Rails 8's default authentication system.
+✅ **Role-Based Access Control** (Admin & User)  
+✅ **Secure Authentication & Registration** (Rails 8 default authentication)  
+✅ **Search & Browse Books**
 
-- **Book Catalog**
-  - List of books with title, author, and ISBN.
-  - Availability status displayed for each book.
-  - Book details page with a "Borrow" button if the book is available.
+### User Features
 
-- **Borrowing System**
-  - Create a Borrowing record when a user borrows a book.
-  - Each borrowing includes a due date (2 weeks from the borrowing date).
-  - Prevents borrowing a book that is already borrowed (active borrowing exists).
+- Borrow books
+- View personal borrowing history with due dates
+- Return Books (Making them available for others)
 
-- **User Profile**
-  - View a list of currently borrowed books.
-  - Return books using the "Return" action (active for borrowings not yet returned).
+### Admin Features
 
-- **Validations & Error Handling**
-  - Books require title, author, and ISBN (unique and must be 10 or 13 digits).
-  - Users must register with a valid, unique email address.
+- Manage Books (Create, Update, Delete)
+- View Borrowing History (Per Book)
 
-- **Testing**
-  - Tests for models, controllers, and views using Rails' default testing framework.
+
+## Tech Stack
+
+-   **Framework**: Ruby on Rails 8
+-   **Database**: SQLite (or preferred database)
+-   **Frontend**: Tailwind CSS
+
 
 ## Setup Instructions
 
@@ -35,7 +38,8 @@ A simple book lending library application built with Ruby on Rails 8. This appli
 
 - Ruby 3.x (recommended)
 - Rails 8.x
-- SQLite3 (or your preferred database as configured in `config/database.yml`)
+- SQLite3 (or preferred database)
+- Tailwind 4.x
 
 ### Installation
 
@@ -53,10 +57,7 @@ A simple book lending library application built with Ruby on Rails 8. This appli
     rails db:migrate db:fixtures:load
     ```
 
-    This loads some records of books and borrowings which can be accessed in the `test/fixtures` directory. Login credentials when accessing the application:
-    * Admin user - Email: one@example.com, Password: password
-    * Regular user - Email: two@example.com, Password: password
-    * Alternative regular user - Email: three@example.com, Password: password
+    This loads sample users, book and borrowing records from the `test/fixtures` directory.
 
 
 4. **Access the application**
@@ -65,7 +66,25 @@ A simple book lending library application built with Ruby on Rails 8. This appli
 rails server
 ```
 
-Then, open your web browser and navigate to http://localhost:3000 to access the application.
+Then, visit **[http://localhost:3000](http://localhost:3000)** in your browser.
+
+### User Flow
+
+1.  Register at `/users/new` then Login at `sessions/new`
+2.  Browse books at `/books`
+3.  Borrow available books
+4.  Manage Borrowings (My Borrowings section)
+    -   View current borrows
+    -   Return books
+    -   Check borrowing history
+
+### Admin Flow
+
+1.  Login as admin
+2.  Manage Books (`/books`)
+  -   Add new books (`/books/new`)
+  -   Edit books (`/books/:id/edit`)
+  -   View book-specific borrow history (`/books/:id`)
 
 ### Running Tests
 
@@ -76,15 +95,7 @@ rails test
 
 ## Project Structure
 
--   **app/models/**
-    Contains the `Book`, `Borrowing`, and `User` models along with their validations and associations.
-
--   **app/controllers/**
-    Handles requests for books, borrowings, sessions, and user profiles.
-
--   **app/views/**
-    Contains structured views for book listings, book details, user profiles, and borrowing actions.
-
--   **test/**
-    Contains tests for models, controllers, and views.
-
+📁 **app/models/** → Contains `Book`, `Borrowing`, and `User` models with validations & associations.  
+📁 **app/controllers/** → Manages requests for books, borrowings, sessions, and user profiles.  
+📁 **app/views/** → Handles book listings, details, user profiles, and borrowing actions.  
+📁 **test/** → Contains model, controller, and integration tests.

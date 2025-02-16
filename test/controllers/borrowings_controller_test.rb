@@ -20,7 +20,7 @@ class BorrowingsControllerTest < ActionDispatch::IntegrationTest
       post borrowings_url, params: { book_id: @book.id }
     end
     assert_redirected_to books_path
-    assert_equal "You have successfully borrowed the book.", flash[:notice]
+    assert_equal "Book borrowed successfully.", flash[:notice]
   end
 
   test "should not create borrowing with unavailable book" do

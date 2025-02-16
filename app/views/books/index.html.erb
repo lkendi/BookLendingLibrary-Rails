@@ -61,7 +61,7 @@
                   <%= link_to "Edit", edit_book_path(book), class: "font-medium text-blue-600 hover:underline mr-2" %>
                 <% else %>
                   <% if book.available? %>
-                    <%= link_to "Borrow", borrowings_path(book_id: book.id), method: :post, data: { confirm: "Are you sure you want to borrow this book?" }, class: "font-medium text-blue-600 hover:underline mr-2" %>
+                    <%= button_to "Borrow", borrowings_path(book_id: book.id), method: :post, data: { confirm: "Are you sure you want to borrow this book?" }, class: "font-medium text-blue-600 hover:underline mr-2" %>
                   <% else %>
                     <span class="text-gray-400 cursor-not-allowed">Borrow</span>
                   <% end %>

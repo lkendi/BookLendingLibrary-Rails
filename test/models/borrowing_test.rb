@@ -2,13 +2,14 @@ require "test_helper"
 
 class BorrowingTest < ActiveSupport::TestCase
   def setup
-    @user = User.create!(email_address: "testuser@example.com", password: "password", role: "user")
-    @book = books(:one)
-    @borrowing = Borrowing.new(user: @user, book: @book, borrowed_at: Time.current)
+    @user = users(:two)
+    @book = books(:two)
+    @borrowing = Borrowing.new(user: @user, book: @book, borrowed_at: Time.current, due_date: 2.weeks.from_now)
   end
 
   test "should be valid with valid associations" do
-    assert @borrowing.valid?
+    assert @borrowing.valid?,
+      "Borrowing invalid: #{@borrowing.errors.full_messages.to_sentence}"
   end
 
   test "should belong to a user" do

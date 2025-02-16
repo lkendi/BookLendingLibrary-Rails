@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[ show edit update destroy ]
+  before_action :verify_admin, except: [ :index ]
 
   # GET /books or /books.json
   def index
@@ -74,4 +75,9 @@ class BooksController < ApplicationController
     def book_params
       params.expect(book: [ :title, :author, :isbn ])
     end
+
+    private
+  def verify_admin
+    redirect_to root_path unless Current.user.admin?
+  end
 end

@@ -1,20 +1,31 @@
 class BorrowingsController < ApplicationController
   def index
-    @borrowings = Current.user.borrowings.includes(:book)
-  end
+    @borrowings = Current.user.borrowings.includes(:book).order(borrowed_at: :desc)
+end
+
 
   def create
-    @book = Book.find(params[:book_id])
+    Book.transaction do
+    @book = Book.lock.find(params[:book_id])
     if @book.available?
-      @borrowing = Current.user.borrowings.build(book: @book, borrowed_at: Time.current)
+      @borrowing = Current.user.borrowings.build(
+          book: @book,
+          borrowed_at: Time.current,
+          due_date: 2.weeks.from_now
+        )
       if @borrowing.save
-        redirect_to books_path, notice: "You have successfully borrowed the book."
+          redirect_to books_path, notice: "Book borrowed successfully."
       else
-        redirect_to books_path, alert: @borrowing.errors.full_messages.to_sentence
+          redirect_to books_path, alert: @borrowing.errors.full_messages.to_sentence
       end
     else
-      redirect_to books_path, alert: "This book is currently unavailable."
+        redirect_to books_path, alert: "This book is currently unavailable."
     end
+    end
+    rescue ActiveRecord::RecordNotFound
+    redirect_to books_path, alert: "Book not found"
+  rescue ActiveRecord::StaleObjectError
+    redirect_to books_path, alert: "Book availability changed. Please try again."
   end
 
   def destroy

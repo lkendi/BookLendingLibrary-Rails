@@ -19,6 +19,7 @@
           <th scope="col" class="px-6 py-3">Author</th>
           <th scope="col" class="px-6 py-3">ISBN</th>
           <th scope="col" class="px-6 py-3">Borrowed At</th>
+          <th scope="col" class="px-6 py-3">Due Date</th>
           <th scope="col" class="px-6 py-3">Status</th>
           <th scope="col" class="px-6 py-3">Actions</th>
         </tr>
@@ -27,6 +28,8 @@
         <% if @borrowings.any? %>
           <% @borrowings.each do |borrowing| %>
             <% book = borrowing.book %>
+            <% due_date = borrowing.due_date %>
+            
             <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                 <%= book.title %>
@@ -38,7 +41,32 @@
                 <%= book.isbn %>
               </td>
               <td class="px-6 py-4">
-                <%= borrowing.borrowed_at ? borrowing.borrowed_at.strftime("%Y-%m-%d %H:%M") : "-" %>
+                <%= borrowing.borrowed_at.strftime("%Y-%m-%d %H:%M") %>
+              </td>
+              <td class="px-6 py-4">
+                <% if due_date.present? %>
+                  <% if borrowing.returned_at.nil? %>
+                    <% current_time = Time.current %>
+                    <% overdue = current_time > due_date %>
+                    <% days_remaining = ((due_date - current_time) / 1.day).ceil %>
+                    <% due_color = overdue ? "bg-red-100 text-red-800" : (days_remaining <= 3 ? "bg-orange-100 text-orange-800" : "bg-green-100 text-green-800") %>
+                  <% else %>
+                    <% due_color = "bg-gray-100 text-gray-800" %>
+                  <% end %>
+
+                  <span class="px-2 py-1 rounded-full text-sm font-medium <%= due_color %>">
+                    <%= due_date.strftime("%Y-%m-%d") %>
+                    <% if borrowing.returned_at.nil? %>
+                      <% if overdue %>
+                        (Overdue <%= (current_time.to_date - due_date.to_date).to_i %> days)
+                      <% else %>
+                        (Due in <%= days_remaining %> days)
+                      <% end %>
+                    <% end %>
+                  </span>
+                <% else %>
+                  <span class="text-gray-400">-</span>
+                <% end %>
               </td>
               <td class="px-6 py-4">
                 <% if borrowing.returned_at.nil? %>
@@ -65,7 +93,7 @@
           <% end %>
         <% else %>
           <tr class="bg-white border-b border-gray-200">
-            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+            <td colspan="7" class="px-6 py-4 text-center text-gray-500">
               No borrowings found.
             </td>
           </tr>
