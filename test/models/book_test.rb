@@ -2,7 +2,8 @@ require "test_helper"
 
 class BookTest < ActiveSupport::TestCase
   def setup
-    @book = Book.new(title: "Test Book", author: "Test Author", isbn: "1234567890")
+    unique_isbn = 
+    @book = Book.new(title: "Test Book", author: "Test Author", isbn: unique_isbn)
   end
 
   test "should be valid with valid attributes" do
