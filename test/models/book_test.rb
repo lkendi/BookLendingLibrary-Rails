@@ -2,7 +2,7 @@ require "test_helper"
 
 class BookTest < ActiveSupport::TestCase
   def setup
-    @book = Book.new(title: "Test Book", author: "Test Author", isbn: "1234567890")
+    @book = Book.new(title: "Test Book", author: "Test Author", isbn: "0123456789021")
   end
 
   test "should be valid with valid attributes" do

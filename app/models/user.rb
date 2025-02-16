@@ -9,9 +9,9 @@ class User < ApplicationRecord
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   validates :email_address,
-              presence: { message: "Email address is required" },
-              uniqueness: { case_sensitive: false, message: "Email address is already registered" },
-              format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email address" }
+              presence: { message: "is required" },
+              uniqueness: { case_sensitive: false, message: "is already registered" },
+              format: { with: URI::MailTo::EMAIL_REGEXP, message: "is invalid" }
 
   def authenticated?
     Current.session

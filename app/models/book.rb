@@ -1,5 +1,5 @@
 class Book < ApplicationRecord
-    has_many :borrowings
+    has_many :borrowings, dependent: :destroy
 
     validates :title, :author, :isbn, presence: { message: " cannot be blank." }
     validates :isbn, uniqueness: { message: " already exists." }

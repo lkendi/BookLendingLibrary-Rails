@@ -3,7 +3,7 @@ require "test_helper"
 class BorrowingTest < ActiveSupport::TestCase
   def setup
     @user = User.create!(email_address: "testuser@example.com", password: "password", role: "user")
-    @book = Book.create!(title: "Test Book", author: "Test Author", isbn: "1234567890")
+    @book = books(:one)
     @borrowing = Borrowing.new(user: @user, book: @book, borrowed_at: Time.current)
   end
 

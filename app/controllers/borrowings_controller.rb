@@ -18,8 +18,12 @@ class BorrowingsController < ApplicationController
   end
 
   def destroy
-    @borrowing = Current.user.borrowings.find(params[:id])
-    @borrowing.update(returned_at: Time.current)
-    redirect_to borrowings_path, notice: "Book returned successfully."
+    borrowing = Borrowing.find(params[:id])
+    if borrowing.user == Current.session.user
+      borrowing.update!(returned_at: Time.current)
+      redirect_to borrowings_path, notice: "Book returned successfully."
+    else
+      raise ActiveRecord::RecordNotFound
+    end
   end
 end
