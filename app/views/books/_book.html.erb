@@ -1,0 +1,18 @@
+<div id="<%= dom_id book %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Title:</strong>
+    <%= book.title %>
+  </p>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Author:</strong>
+    <%= book.author %>
+  </p>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Isbn:</strong>
+    <%= book.isbn %>
+  </p>
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Availability:</strong>
+    <%= @book.available? ? "Available" : "Unavailable" %>
+  </p>
+</div>

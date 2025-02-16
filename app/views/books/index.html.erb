@@ -1,0 +1,73 @@
+<% content_for :title, "Books" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-4xl">Books</h1>
+    <%= link_to "New book", new_book_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form_with url: books_path, method: :get, local: true, class: "flex gap-2 items-center border border-gray-200 rounded-lg px-4 py-2.5 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100 transition-colors" do |form| %>
+      <%= form.text_field :search, 
+            value: params[:search],
+            placeholder: "Search by title, author, or ISBN",
+            class: "flex-1 border-none text-gray-700 placeholder-gray-400 bg-transparent focus:ring-0 focus:outline-none" %>
+      <button type="submit" class="text-gray-400 hover:text-gray-500 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </button>
+    <% end %>
+  </div>
+
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3">Title</th>
+          <th scope="col" class="px-6 py-3">Author</th>
+          <th scope="col" class="px-6 py-3">ISBN</th>
+          <th scope="col" class="px-6 py-3">Availability</th>
+          <th scope="col" class="px-6 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @books.any? %>
+          <% @books.each do |book| %>
+            <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                <%= book.title %>
+              </th>
+              <td class="px-6 py-4">
+                <%= book.author %>
+              </td>
+              <td class="px-6 py-4">
+                <%= book.isbn %>
+              </td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-1 rounded-full text-sm font-medium <%= book.available? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                  <%= book.available? ? "Available" : "Unavailable" %>
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <%= link_to "Show", book, class: "font-medium text-blue-600 hover:underline mr-2" %>
+                <%= link_to "Edit", edit_book_path(book), class: "font-medium text-blue-600 hover:underline mr-2" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="bg-white border-b border-gray-200">
+            <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+              No books found.
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
