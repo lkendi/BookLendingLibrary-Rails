@@ -1,0 +1,76 @@
+<% content_for :title, "My Borrowings" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice">
+      <%= notice %>
+    </p>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-4xl">My Borrowings</h1>
+  </div>
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3">Title</th>
+          <th scope="col" class="px-6 py-3">Author</th>
+          <th scope="col" class="px-6 py-3">ISBN</th>
+          <th scope="col" class="px-6 py-3">Borrowed At</th>
+          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @borrowings.any? %>
+          <% @borrowings.each do |borrowing| %>
+            <% book = borrowing.book %>
+            <tr class="odd:bg-white even:bg-gray-50 border-b border-gray-200">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                <%= book.title %>
+              </th>
+              <td class="px-6 py-4">
+                <%= book.author %>
+              </td>
+              <td class="px-6 py-4">
+                <%= book.isbn %>
+              </td>
+              <td class="px-6 py-4">
+                <%= borrowing.borrowed_at ? borrowing.borrowed_at.strftime("%Y-%m-%d %H:%M") : "-" %>
+              </td>
+              <td class="px-6 py-4">
+                <% if borrowing.returned_at.nil? %>
+                  <span class="px-2 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    Active
+                  </span>
+                <% else %>
+                  <span class="px-2 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                    Returned
+                  </span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4">
+                <% if borrowing.returned_at.nil? %>
+                  <%= link_to "Return", borrowing_path(borrowing), 
+                        method: :delete, 
+                        data: { confirm: "Are you sure you want to return this book?" }, 
+                        class: "font-medium text-blue-600 hover:underline" %>
+                <% else %>
+                  <span class="text-gray-400 cursor-not-allowed">Return</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr class="bg-white border-b border-gray-200">
+            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+              No borrowings found.
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<nav class="bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex space-x-4">
+        <%= link_to "Home", root_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+        <%# Show "My Borrowings" for normal users %>
+        <% unless Current.user.admin? %>
+          <%= link_to "My Borrowings", borrowings_path, class: "text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" %>
+        <% end %>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="text-gray-600">Hello, <%= Current.user.email_address %></span>
+        <%= button_to "Logout", session_path, method: :delete, class: "bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-md text-sm font-medium" %>
+      </div>
+    </div>
+  </div>
+</nav>

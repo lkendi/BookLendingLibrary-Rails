@@ -1,13 +1,22 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  user: two
   book: one
+  borrowed_at: 2025-02-15 07:10:34
   due_date: 2025-02-16 07:10:34
-  returned_at: 2025-02-16 07:10:34
+  returned_at: null
 
 two:
   user: two
   book: two
+  borrowed_at: 2025-02-15 07:10:34
+  due_date: 2025-02-16 07:10:34
+  returned_at: 2025-02-16 07:10:34
+
+three:
+  user: three
+  book: three
+  borrowed_at: 2025-02-15 07:10:34
   due_date: 2025-02-16 07:10:34
   returned_at: 2025-02-16 07:10:34

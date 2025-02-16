@@ -23,6 +23,9 @@
   </head>
 
   <body>
+    <% if Current.user && Current.user.authenticated? %>
+      <%= render 'layouts/navbar' %>
+    <% end %>
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>

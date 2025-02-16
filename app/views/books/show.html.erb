@@ -120,6 +120,7 @@
                 <tr>
                   <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Borrower</th>
                   <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Borrowed Date</th>
+                  <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Due Date</th>
                   <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Return Date</th>
                   <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">Status</th>
                 </tr>
@@ -128,14 +129,17 @@
                 <% if @book.borrowings.any? %>
                   <% @book.borrowings.each do |borrowing| %>
                     <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-4 py-3 text-sm font-medium text-gray-900"><%= borrowing.user.name %></td>
-                      <td class="px-4 py-3 text-sm text-gray-600"><%= borrowing.borrowed_on.strftime('%b %d, %Y') %></td>
+                      <td class="px-4 py-3 text-sm font-medium text-gray-900"><%= borrowing.user.email_address %></td>
+                      <td class="px-4 py-3 text-sm text-gray-600"><%= borrowing.borrowed_at.strftime('%b %d, %Y') %></td>
                       <td class="px-4 py-3 text-sm text-gray-600">
-                        <%= borrowing.returned_on ? borrowing.returned_on.strftime('%b %d, %Y') : '--' %>
+                        <%= borrowing.due_date ? borrowing.due_date.strftime('%b %d, %Y') : '--' %>
+                      </td>
+                      <td class="px-4 py-3 text-sm text-gray-600">
+                        <%= borrowing.returned_at ? borrowing.returned_at.strftime('%b %d, %Y') : '--' %>
                       </td>
                       <td class="px-4 py-3">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= borrowing.returned_on ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800' %>">
-                          <%= borrowing.returned_on ? 'Returned' : 'Active' %>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= borrowing.returned_at ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800' %>">
+                          <%= borrowing.returned_at ? 'Returned' : 'Active' %>
                         </span>
                       </td>
                     </tr>
