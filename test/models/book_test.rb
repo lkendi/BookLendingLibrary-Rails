@@ -2,7 +2,7 @@ require "test_helper"
 
 class BookTest < ActiveSupport::TestCase
   def setup
-    unique_isbn = 
+    unique_isbn = Array.new([ 10, 13 ].sample) { rand(10) }.join
     @book = Book.new(title: "Test Book", author: "Test Author", isbn: unique_isbn)
   end
 
