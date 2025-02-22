@@ -27,7 +27,7 @@ class BorrowingsControllerTest < ActionDispatch::IntegrationTest
     Borrowing.create!(user: @user, book: @book, borrowed_at: Time.current)
     post borrowings_url, params: { book_id: @book.id }
     assert_redirected_to books_path
-    assert_equal "This book is currently unavailable.", flash[:alert]
+    assert_equal "Book unavailable or already borrowed.", flash[:alert]
   end
 
   test "should return book" do

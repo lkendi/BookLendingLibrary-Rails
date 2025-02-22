@@ -8,4 +8,15 @@ class Book < ApplicationRecord
     def available?
         borrowings.where(returned_at: nil).none?
     end
+
+    def borrow_by!(user)
+        with_lock do
+            raise ActiveRecord::RecordInvalid unless available?
+            borrowings.create!(
+            user: user,
+            borrowed_at: Time.current,
+            due_date: 2.weeks.from_now
+        )
+        end
+    end
 end

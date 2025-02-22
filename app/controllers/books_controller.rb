@@ -10,6 +10,7 @@ class BooksController < ApplicationController
     else
       @books = Book.all
     end
+    @books = @books.page(params[:page]).per(10)
   end
 
 

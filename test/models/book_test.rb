@@ -4,6 +4,7 @@ class BookTest < ActiveSupport::TestCase
   def setup
     unique_isbn = Array.new([ 10, 13 ].sample) { rand(10) }.join
     @book = Book.new(title: "Test Book", author: "Test Author", isbn: unique_isbn)
+    @user = User.create!(email_address: "user@example.com", password: "password")
   end
 
   test "should be valid with valid attributes" do
@@ -58,5 +59,21 @@ class BookTest < ActiveSupport::TestCase
     user = User.create!(email_address: "another@example.com", password: "password", role: "user")
     @book.borrowings.create!(user: user, borrowed_at: Time.current, returned_at: Time.current)
     assert @book.available?
+  end
+
+  test "book is available when no active borrowings" do
+    assert @book.available?, "Book should be available if there are no active borrowings"
+  end
+
+  test "book is not available when there is an active borrowing" do
+    Borrowing.create!(user: @user, book: @book, borrowed_at: Time.current)
+    assert_not @book.available?, "Book should not be available if there is an active borrowing"
+  end
+
+  test "borrow_by! raises error when book is not available" do
+    Borrowing.create!(user: @user, book: @book, borrowed_at: Time.current)
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @book.borrow_by!(@user)
+    end
   end
 end
